@@ -1,0 +1,26 @@
+mkdir: impossible de créer le répertoire «data/ncbi/GCA_009739505.2/SET_sequences/»: Le fichier existe
+mkdir: impossible de créer le répertoire «data/ncbi/GCA_009739505.2/SET_blastp/»: Le fichier existe
+blastdbcmd -db data/ncbi/GCA_009739505.2/protdb -entry KAF6212200.1 -range 35-200 -out data/ncbi/GCA_009739505.2/SET_sequences/KAF6212200.1.fa
+blastdbcmd -db data/ncbi/GCA_009739505.2/protdb -entry KAF6211125.1 -range 27-157 -out data/ncbi/GCA_009739505.2/SET_sequences/KAF6211125.1.fa
+blastdbcmd -db data/ncbi/GCA_009739505.2/protdb -entry KAF6203087.1 -range 569-720 -out data/ncbi/GCA_009739505.2/SET_sequences/KAF6203087.1.fa
+blastdbcmd -db data/ncbi/GCA_009739505.2/protdb -entry KAF6210979.1 -range 571-722 -out data/ncbi/GCA_009739505.2/SET_sequences/KAF6210979.1.fa
+blastdbcmd -db data/ncbi/GCA_009739505.2/protdb -entry KAF6204240.1 -range 30-127 -out data/ncbi/GCA_009739505.2/SET_sequences/KAF6204240.1.fa
+blastdbcmd -db data/ncbi/GCA_009739505.2/protdb -entry KAF6207517.1 -range 100-213 -out data/ncbi/GCA_009739505.2/SET_sequences/KAF6207517.1.fa
+Traceback (most recent call last):
+  File "idk.py", line 10, in <module>
+    print(f"blastdbcmd -db data/ncbi/{accession}/protdb -entry {row['SeqID']} -range {int(row['SET domain start'])}-{int(row['SET domain end'])} -out data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa")
+ValueError: cannot convert float NaN to integer
+[Tue Oct 31 19:38:05 2023]
+Error in rule read_table:
+    jobid: 137
+    input: results/GCA_009739505.2/summary_table_GCA_009739505.2.csv
+    output: results/GCA_009739505.2/blast_table_GCA_009739505.2.csv
+    shell:
+        
+        python idk.py results/GCA_009739505.2/summary_table_GCA_009739505.2.csv GCA_009739505.2
+        
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-10-31T193804.166338.snakemake.log

@@ -1,0 +1,2 @@
+This step manages the download of all available data according to previously gathered information, which can be found in data/resources/organisms_data. 
+All reference genomes will be downloaded, along with annotation an protein sequence files should they exist.

@@ -1,0 +1,8 @@
+channels:
+  - defaults
+  - bioconda
+dependencies:
+  - python == 3.8.10
+  - pandas
+  - numpy
+  - snakemake
