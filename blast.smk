@@ -12,7 +12,7 @@ rule read_table:
         "results/{accession}/blast_table_{accession}.csv"
     shell:
         """
-        python idk.py results/{wildcards.accession}/summary_table_{wildcards.accession}.csv {wildcards.accession}
+        python sum_up_ratios.py results/{wildcards.accession}/summary_table_{wildcards.accession}.csv {wildcards.accession}
         """
 #         && awk '/^>/ {sub(">", "", $1); print $1}' ratio_values > taxid.txt\
 
