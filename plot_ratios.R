@@ -6,12 +6,13 @@ donnees <- read.csv2("plotdata.csv")
 
 donnees <- donnees[, -which(names(donnees) == "X")]
 donnees$Ratio=as.numeric(as.character(donnees$Ratio))
+donnees$Bit.score=as.numeric(as.character(donnees$Bit.score))
 
 
 donnees=donnees[order(donnees$Superorder,donnees$Species.name),]
 donnees$num=c(1:nrow(donnees))
 donnees <- donnees %>%
-  mutate(total_domains = 1 + KRAB + SSXRD + ZF)
+  mutate(total_domains = 1 + KRAB)
 donnees <- donnees %>%
   rowwise() %>%
   mutate(
@@ -27,16 +28,27 @@ donnees <- donnees %>%
 # ggplotly(p)
 p <- ggplot(data = donnees, aes(x = Ratio,
                            y = num,
-                           text = paste("Domains:", cols_with_one))) +
+                           text = paste("Species:", Species.name, "\nDomains:", cols_with_one))) +
   geom_point(aes(fill = Superorder,
-                 color = I(ifelse(total_domains == 3, "black", "transparent"))),
+                 color = I(ifelse(total_domains == 4, "black", "transparent"))),
              alpha = (donnees$total_domains / 4),
              shape = 21) +
   labs(title = "Scatter Plot", x = "Score PRDM9/PRDMX", y = "Espèce")
 ggplotly(p)
-##
-install.packages("shiny")
- ################################################################################
+
+
+q <- ggplot(data = donnees, aes(x = Ratio,
+                                y = Bit.score,
+                                text = paste("Species:", Species.name, 
+                                             "\nnum:", num, 
+                                             "\nDomains:", cols_with_one))) +
+  geom_point(aes(fill = Superorder,
+                 color = I(ifelse(total_domains == 2, "black", "transparent"))),
+             alpha = (donnees$total_domains / 2),
+             shape = 21) +
+  labs(title = "Scatter Plot", x = "Score PRDM9/PRDMX", y = "Bit Score")
+ggplotly(q)
+##################################################################################
 
 # library("ggplot2")
 # donnees <- read.csv2("plotdata.csv")

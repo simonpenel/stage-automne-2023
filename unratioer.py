@@ -5,7 +5,7 @@ import pandas as pd
 df = pd.read_csv(sys.argv[1], sep=';')
 accession = sys.argv[2]
 
-with open('ratio_values', 'a') as writer:
+with open('unratioed_values', 'a') as writer:
     string = ''
     os.system(f"mkdir -p data/ncbi/{accession}/SET_sequences/")
     os.system(f"mkdir -p data/ncbi/{accession}/SET_blastp/")
@@ -32,7 +32,7 @@ with open('ratio_values', 'a') as writer:
                 while lines[5 + j].split()[1].split('_')[0] == 'PRDM9': 
                     j += 1
                 df.at[index, 'Score ratio'] = float(lines[5].split()[-1])/float(lines[5 + j].split()[-1])
-                string += f"{prot}{float(lines[5].split()[-1])/float(lines[5 + j].split()[-1])}\n"
+                string += f"{prot}{float(lines[5].split()[-1])}\t{float(lines[5].split()[-1])/float(lines[5 + j].split()[-1])}\n"
     df.to_csv(f"results/{accession}/blast_table_{accession}.csv", sep=';')
     if string != '':
         writer.write(taxid + string)  
