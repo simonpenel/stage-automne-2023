@@ -29,15 +29,22 @@ with open(args.output) as reader, open(args.synthesis, 'w') as writer:
             for elt in line.split(maxsplit=23):
                 newline += f"{elt.strip()}\t"
         else:
-            line_data = line.split(maxsplit=23)
-            newline_data = newline.split('\t')
-            evalue = line_data[12]
-            start = line_data[17]
-            end = line_data[18]
-            newline_data[12] = str(min(float(evalue), float(newline_data[12])))
-            newline_data[17] = str(min(int(start), int(newline_data[17])))
-            newline_data[18] = str(max(int(end), int(newline_data[18])))
-            newline = '\t'.join(newline_data)    
+            if args.output == 'ZF_domains_processed':
+                line_data = line.split(maxsplit=23)
+                newline_data = newline.split('\t')
+                evalue = line_data[12]
+                start = line_data[17]
+                end = line_data[18]
+                newline_data[12] = str(min(float(evalue), float(newline_data[12])))
+                newline_data[17] = str(min(int(start), int(newline_data[17])))
+                newline_data[18] = str(max(int(end), int(newline_data[18])))
+                newline = '\t'.join(newline_data)
+            else:
+                writer.write(newline + '\n')
+                newline = ''
+                for elt in line.split(maxsplit=23):
+                    newline += f"{elt.strip()}\t"
+                
     writer.write(newline + '\n')
         
 
