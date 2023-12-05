@@ -12,7 +12,7 @@ donnees$Bit.score=as.numeric(as.character(donnees$Bit.score))
 donnees=donnees[order(donnees$Superorder,donnees$Species.name),]
 donnees$num=c(1:nrow(donnees))
 donnees <- donnees %>%
-  mutate(total_domains = 1 + KRAB)
+  mutate(total_domains = 1 + KRAB + SSXRD+ ZF)
 donnees <- donnees %>%
   rowwise() %>%
   mutate(

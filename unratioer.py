@@ -24,6 +24,7 @@ with open('unratioed_values', 'a') as writer:
         os.system(f"blastdbcmd -db data/ncbi/{accession}/protdb -entry {row['SeqID']} -range {int(row['SET domain start'])}-{int(row['SET domain end'])} -out data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa")
         os.system(f"blastp -db data/PRDM_family_HUMAN/prdm_family -outfmt 7 -query data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa -out data/ncbi/{accession}/SET_blastp/{row['SeqID']}")
         with open(f"data/ncbi/{accession}/SET_blastp/{row['SeqID']}") as reader:
+            prot_id = row['SeqID']
             lines = reader.readlines()
             df.at[index, 'Best Match'] = lines[5].split()[1].split('_')[0] # Best match Prdm number
             if lines[5].split()[1].split('_')[0] == 'PRDM9': # if it is prdm9, save the score and compare it to the next non-prdm9 best match
@@ -32,7 +33,7 @@ with open('unratioed_values', 'a') as writer:
                 while lines[5 + j].split()[1].split('_')[0] == 'PRDM9': 
                     j += 1
                 df.at[index, 'Score ratio'] = float(lines[5].split()[-1])/float(lines[5 + j].split()[-1])
-                string += f"{prot}{float(lines[5].split()[-1])}\t{float(lines[5].split()[-1])/float(lines[5 + j].split()[-1])}\n"
+                string += f"{prot}{prot_id}\t{float(lines[5].split()[-1])}\t{float(lines[5].split()[-1])/float(lines[5 + j].split()[-1])}\n"
     df.to_csv(f"results/{accession}/blast_table_{accession}.csv", sep=';')
     if string != '':
         writer.write(taxid + string)  
