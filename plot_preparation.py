@@ -5,7 +5,7 @@ import os
 
 ncbi = NCBITaxa()
 tenta_df = []
-with open('unratioed_values', 'r+') as reader:
+with open('blastp_summary.txt', 'r+') as reader:
     for line in reader.readlines():
         line = line.strip()
         if line.startswith('>') == True:
@@ -29,11 +29,11 @@ plot_df.to_csv('plotdata.csv', sep=';')
 plot_df = plot_df.loc[:, ~plot_df.columns.str.contains('^Unnamed')]
 
 # Lecture des données taxonomiquese t ajout d'une colonne de synthèse des noms d'espèces
-taxonomy = pd.read_csv("sorted_taxonomy.csv", sep=",")
+taxonomy = pd.read_csv("sorted_taxonomy.csv", sep=";")
 for index, row in taxonomy.iterrows():
     last_valid_col = taxonomy.iloc[index].last_valid_index()
     taxonomy.at[index, 'Species_name'] = taxonomy.loc[index, last_valid_col]
-taxonomy = taxonomy[['Species_name', 'Accession']]
+taxonomy = taxonomy[['Accession', 'Species_name']]
 taxonomy.rename(columns={'Species_name': 'Species_name2'}, inplace=True)
 
 plot_df = plot_df.sort_values(by=['Superorder', 'Species_name']) 
@@ -54,3 +54,9 @@ df_fusion = df_fusion.drop(['Species_name2'], axis = 1)
 df_fusion.to_csv('PRDM9_data.csv', index= False, sep=';')
 os.remove('fusion.sql')
 
+os.system(f"mkdir -p test_seq_pour_align/")
+for index, row in df_fusion.iterrows():
+    accession = row['Accession']
+    protein_id = row['Protein ID']
+    os.system(f"blastdbcmd -db data/ncbi/{accession}/protdb -entry {protein_id} -out test_seq_pour_align/{protein_id}.fa")
+        

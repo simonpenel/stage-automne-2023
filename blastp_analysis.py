@@ -5,7 +5,7 @@ import pandas as pd
 df = pd.read_csv(sys.argv[1], sep=';')
 accession = sys.argv[2]
 
-with open('unratioed_values', 'a') as writer:
+with open('blastp_summary.txt', 'a') as writer:
     string = ''
     os.system(f"mkdir -p data/ncbi/{accession}/SET_sequences/")
     os.system(f"mkdir -p data/ncbi/{accession}/SET_blastp/")

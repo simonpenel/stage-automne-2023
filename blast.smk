@@ -5,6 +5,11 @@ ACCESSNB = [elt for elt in os.listdir('results/') if elt.startswith('GC') == Tru
 rule all:
     input: expand("results/{accession}/blast_table_{accession}.csv", accession=ACCESSNB)
 
+rule gatekeep:
+    priority: 1
+    message:
+        "Please check you have no file named blastp_summary.txt in the current directory. If you do, please move, rename or delete it to ensure this pipeline operates properly."
+
 rule read_table:
     input:
         "results/{accession}/summary_table_{accession}.csv"
@@ -12,7 +17,7 @@ rule read_table:
         "results/{accession}/blast_table_{accession}.csv"
     shell:
         """
-        python unratioer.py results/{wildcards.accession}/summary_table_{wildcards.accession}.csv {wildcards.accession}
+        python blastp_analysis.py results/{wildcards.accession}/summary_table_{wildcards.accession}.csv {wildcards.accession}
         """
 #         && awk '/^>/ {sub(">", "", $1); print $1}' ratio_values > taxid.txt\
 
