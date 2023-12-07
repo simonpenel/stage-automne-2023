@@ -39,8 +39,8 @@ taxonomy.rename(columns={'Species_name': 'Species_name2'}, inplace=True)
 plot_df = plot_df.sort_values(by=['Superorder', 'Species_name']) 
 
 # Sélection des organismes avec les 4 domaines protéiques, et de la protéine avec le meilleur match si nécessaire
-plot_df['total_domains'] = 1 + plot_df['KRAB'] + plot_df['SSXRD'] + plot_df['ZF']
-plot_df = plot_df[plot_df['total_domains'] == 4]
+plot_df['total_domains'] = 1 + plot_df['KRAB'] # + plot_df['SSXRD'] + plot_df['ZF']
+plot_df = plot_df[plot_df['total_domains'] == 2]
 plot_df['Bit score'] = plot_df['Bit score'].astype(float)
 result = plot_df.loc[plot_df.groupby('Species_name')['Bit score'].idxmax()]
 # Fusion des 2 dataframes pour avoir les numéros d'accession
