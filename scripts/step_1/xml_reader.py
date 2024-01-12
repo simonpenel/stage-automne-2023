@@ -2,15 +2,15 @@ import xml.etree.ElementTree as ET
 import sys
 import re
 
+# This script uses the ET library to read the xml file created as a result of the ncbi query.
+# It creates a summary output text file named organisms_data and accessible in the data/resources
+# directory.
+
 tree = ET.parse(sys.argv[1])
-# with open(sys.argv[1]) as f:
-#     xml = f.read()
-# tree = ET.fromstring(re.sub(r"(<\![^>]+>)", r"\0\n<root>\n", xml) + "</root>")
 root = tree.getroot()
 
 with open(sys.argv[2], 'w') as writer:
     writer.write(f"Species Name\tTaxid\tAssembly Accession\tExisting Annotation\tExisting Protein Sequence\tURL\n")
-    # for docset in root.findall('.//DocumentSummarySet'):
     for document_summary in root.findall('.//DocumentSummary'):
         protein = False
         annotation = False

@@ -1,6 +1,9 @@
 configfile: "scripts/step_2/config.json"
 
 with open("data/resources/organisms_data") as reader:
+    """
+    Creates the list of URL that will be used for download
+    """
     PATHLIST = []
     ACCESSNB = []
     CUR_LIST = []

@@ -1,5 +1,7 @@
 import pandas as pd
 
+taxonomy = pd.read_csv('sorted_taxonomy.csv', sep= ';')
+taxonomy = taxonomy[['Taxid', 'Accession']]
 donnees = pd.read_csv("plotdata.csv", sep=";")
 donnees = donnees.loc[:, ~donnees.columns.str.contains('^Unnamed')]
 donnees['boolZF'] = donnees['ZF'].apply(lambda x: 0 if x == 0 else 1)
@@ -16,7 +18,7 @@ for index, row in donnees.iterrows():
     else:
         donnees.at[index, 'PRDM9'] = False 
 
-prdmx = donnees[donnees['PRDM9'] == True]
+prdmx = donnees[donnees['PRDM9'] == False]
 
 synth = prdmx.groupby(['Taxid', 'Species_name', 'Superorder']).agg({
     'Complete_PRDMX': lambda x: list(prdmx.loc[x.index, 'Protein ID'][prdmx['Complete_PRDMX'] == 1]),
@@ -32,8 +34,11 @@ synth['SET+KRAB+ZF nb'] = synth['SET+KRAB+ZF'].apply(len)
 synth['SET+KRAB nb'] = synth['SET+KRAB'].apply(len)
 synth['KRAB+ZF nb'] = synth['KRAB+ZF'].apply(len)
 
-# Est-ce que je garde les 340 insectes ou juste ceux qui ont des colonnes non vides ?
+nombre_lignes_SET = donnees[donnees['SET'] == 1].groupby(['Taxid', 'Species_name']).size().reset_index(name='Nb_SET')
+synth = synth.merge(nombre_lignes_SET, on=['Taxid', 'Species_name'], how='left')
+synth['Nb_SET'] = synth['Nb_SET'].fillna(0).astype(int)
 
-synth = synth[['Taxid', 'Species_name','Superorder', 'Nb_SET', 'Complete_PRDMX nb', 'Complete_PRDMX', 'SET+KRAB+SSXRD nb', 'SET+KRAB+SSXRD', 'SET+KRAB+ZF nb', 'SET+KRAB+ZF']]
-
-synth.to_csv('table_candidats_exclus.csv', sep = ';')
+merge = pd.merge(synth, taxonomy, left_on='Taxid', right_on='Taxid', how='inner')
+merge = merge.loc[:, ~merge.columns.str.contains('^Unnamed')]
+merge = merge[['Taxid', 'Accession', 'Species_name','Superorder', 'Nb_SET', 'Complete_PRDMX nb', 'Complete_PRDMX', 'SET+KRAB+SSXRD nb', 'SET+KRAB+SSXRD', 'SET+KRAB+ZF nb', 'SET+KRAB+ZF', 'SET+KRAB nb', 'SET+KRAB']]
+merge.to_csv('table_candidats_exclus.csv', sep = ';', index=False)

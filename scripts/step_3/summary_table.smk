@@ -25,6 +25,9 @@ rule hmm_search:
         "hmmsearch -E 1E-3 --domE 1E-3 --tblout {output.table} --domtblout {output.domains} --noali {input.model} {input.protein}"
 
 rule tbl_processing:
+    """
+    Result file processing for a later use
+    """
     input:
         "results/{accession}/hmm_search/tbl/{domain}"
     output:
@@ -33,6 +36,9 @@ rule tbl_processing:
         "python scripts/step_3/hmmsearch_parser.py -i {input} -o {output}"
 
 rule domain_processing:
+    """
+    Result file processing for a later use
+    """
     input:
         "results/{accession}/hmm_search/tbl/{domain}_processed",
         domain_data="results/{accession}/hmm_search/domtbl/{domain}_domains"
