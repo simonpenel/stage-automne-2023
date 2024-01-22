@@ -2,6 +2,13 @@ import sys
 import os
 import pandas as pd
 
+"""
+This script extracts the sequence selected by hmm search for an organism and runs a blastp analysis against the Human PRDM genes family. If the best match is PRDM9, 
+the value is saved and compared to the next best non-PRDM9 match.
+The ouput file is named blastp_summary.txt and contains the taxid, the best PRDM match, the presence/absence data for every proteic domain, the bit score of the blastp
+if the best match is PRDM9 and the ratio with the second best non-PRDM9 match.
+"""
+
 df = pd.read_csv(sys.argv[1], sep=';')
 accession = sys.argv[2]
 

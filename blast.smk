@@ -19,5 +19,4 @@ rule read_table:
         """
         python blastp_analysis.py results/{wildcards.accession}/summary_table_{wildcards.accession}.csv {wildcards.accession}
         """
-#         && awk '/^>/ {sub(">", "", $1); print $1}' ratio_values > taxid.txt\
 

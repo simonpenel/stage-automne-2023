@@ -3,6 +3,10 @@ import pandas as pd
 import os
 
 
+"""
+This script creates a complete taxonomy table using the ete3 python library
+"""
+
 def move_last_col(df):
     last_col_name = df.columns[-1]
     last_col = df.pop(last_col_name)

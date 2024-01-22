@@ -10,17 +10,17 @@ with open("data/resources/organisms_data") as reader:
     CURATED = [] # Assemblies with annotation and protein sequence
     for line in reader.readlines()[1:]:
         line_data = line.strip().split('\t')
-        if line_data[-1] != 'None':
+        if line_data[-1] != 'None': # if there is an existing URL
             ACCESSNB.append(line_data[2])
             PATHLIST.append(f"{line_data[-1]}")
-            if line_data[3] == 'True':
+            if line_data[3] == 'True': # if genome is curated
                 CUR_LIST.append(f"{line_data[-1]}")
                 CURATED.append(line_data[2])
                 print(line_data[2], line_data[3])
 
 if config["curated_only"] == 1:
-    FINAL = CURATED
-    PATHLIST = dict(zip(FINAL, CUR_LIST))
+    FINAL = CURATED # Accession number list
+    PATHLIST = dict(zip(FINAL, CUR_LIST)) # Dictionary with accession number as keysand URLs as values
 else:
     FINAL = ACCESSNB
     PATHLIST = dict(zip(FINAL, PATHLIST))
@@ -51,8 +51,9 @@ rule download_protein_data:
         && makeblastdb -in protein.faa -title protdb -out protdb -dbtype prot -parse_seqids\
         && cd ../../../
         """
-        # création de la bd protéique rajoutée ici pour simplifier l'étape 4 lors de l'extraction des séquences d'intérêt
-
+        # the blast database is created here to be used during the 4th step 
+        # for proteic sequence extraction
+        >
 rule download_genomic_data:
     params:
         http_path = GetPath

@@ -1,6 +1,6 @@
 import argparse
 
-parser = argparse.ArgumentParser(description='Reads hmm_search tab output file and writes another file with tab separator instead of whitespaces')
+parser = argparse.ArgumentParser(description='Reads hmm_search per domain output file and writes another file with tab separator instead of whitespaces')
 
 parser.add_argument('-i', '--input', type=str, required=True, help='HMM_search -domtblout file path')
 parser.add_argument('-o', '--output', type=str, required=True, help='Processed file path')

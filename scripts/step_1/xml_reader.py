@@ -1,6 +1,5 @@
 import xml.etree.ElementTree as ET
 import sys
-import re
 
 # This script uses the ET library to read the xml file created as a result of the ncbi query.
 # It creates a summary output text file named organisms_data and accessible in the data/resources

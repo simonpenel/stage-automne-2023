@@ -1,5 +1,9 @@
 import pandas as pd
 
+"""
+This script creates a summary table of domain presence absence in genes that are identified as PRDM9 for every organism
+"""
+
 taxonomy = pd.read_csv('sorted_taxonomy.csv', sep= ';')
 taxonomy = taxonomy[['Taxid', 'Accession']]
 donnees = pd.read_csv("plotdata.csv", sep=";")
