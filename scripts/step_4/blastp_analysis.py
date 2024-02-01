@@ -12,7 +12,7 @@ if the best match is PRDM9 and the ratio with the second best non-PRDM9 match.
 df = pd.read_csv(sys.argv[1], sep=';')
 accession = sys.argv[2]
 
-with open('results/BLASTP_results/blastp_summary.txt', 'a') as writer:
+with open(f"results/{accession}/blastp.txt", 'w') as writer:
     string = ''
     os.system(f"mkdir -p data/ncbi/{accession}/SET_sequences/")
     os.system(f"mkdir -p data/ncbi/{accession}/SET_blastp/")
