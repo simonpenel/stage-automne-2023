@@ -31,8 +31,14 @@ with open(f"results/{accession}/blastp.txt", 'w') as writer:
         if row['Nb ZF domains'] != 0:
             zf = row['Nb ZF domains']
         prot = f"<\t{set}\t{krab}\t{ssxrd}\t{zf}\n"
-        os.system(f"blastdbcmd -db data/ncbi/{accession}/protdb -entry {row['SeqID']} -range {int(row['SET domain start'])}-{int(row['SET domain end'])} -out data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa")
-        os.system(f"blastp -db data/PRDM_family_HUMAN/prdm_family -outfmt 7 -query data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa -out data/ncbi/{accession}/SET_blastp/{row['SeqID']}")
+        print(f"Run blastdbcmd -db data/ncbi/{accession}/protdb -entry {row['SeqID']} -range {int(row['SET domain start'])}-{int(row['SET domain end'])} -out data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa")
+        ret = os.system(f"blastdbcmd -db data/ncbi/{accession}/protdb -entry {row['SeqID']} -range {int(row['SET domain start'])}-{int(row['SET domain end'])} -out data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa")
+        if ret > 0 :
+            sys.exit("Error during blastdbcmd")
+        print(f"Run blastp -db data/PRDM_family_HUMAN/prdm_family -outfmt 7 -query data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa -out data/ncbi/{accession}/SET_blastp/{row['SeqID']}")
+        ret = os.system(f"blastp -db data/PRDM_family_HUMAN/prdm_family -outfmt 7 -query data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa -out data/ncbi/{accession}/SET_blastp/{row['SeqID']}")
+        if ret > 0 :
+            sys.exit("Error during blastp")
         with open(f"data/ncbi/{accession}/SET_blastp/{row['SeqID']}") as reader:
             prot_id = row['SeqID']
             lines = reader.readlines()
