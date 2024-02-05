@@ -53,7 +53,7 @@ rule download_protein_data:
         """
         # the blast database is created here to be used during the 4th step 
         # for proteic sequence extraction
-        >
+        
 rule download_genomic_data:
     params:
         http_path = GetPath
