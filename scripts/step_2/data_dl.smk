@@ -20,7 +20,7 @@ with open("data/resources/organisms_data") as reader:
 
 if config["curated_only"] == 1:
     FINAL = CURATED # Accession number list
-    PATHLIST = dict(zip(FINAL, CUR_LIST)) # Dictionary with accession number as keys and URLs as values
+    PATHLIST = dict(zip(FINAL, CUR_LIST)) # Dictionary with accession number as keysand URLs as values
 else:
     FINAL = ACCESSNB
     PATHLIST = dict(zip(FINAL, PATHLIST))
@@ -48,12 +48,12 @@ rule download_protein_data:
         && wget {params.http_path}_protein.faa.gz \
         && gunzip *.gz \
         && ln -s *.faa protein.faa\
-        && makeblastdb -in protein.faa -title protdb -out protdb -dbtype prot -parse_seqids\
+        && formatdb -i protein.faa -t protdb -n protdb -p T -o T\
         && cd ../../../
         """
         # the blast database is created here to be used during the 4th step 
         # for proteic sequence extraction
-        >
+        
 rule download_genomic_data:
     params:
         http_path = GetPath
