@@ -1,5 +1,5 @@
 # stage-automne-2023
-This is a pipeline is designed to detect the PRDM9 gene in Metazoan proteomes using HMMER and BLAST.  
+This snakemake pipeline was developped by Adrien Raimbault as a part of a voluntary Master degree internship under the superision of Laurent Duret (LBBE). It is designed to detect the PRDM9 gene in a specified set of proteomes from the NCBI using HMMER and BLAST.  
 
 ## Step 1   
 This step gathers important information from the NCBI database to prepare for data download. The query returns which of reference genome, genome annotations and proteome are available to download, and the associated URL address.  
