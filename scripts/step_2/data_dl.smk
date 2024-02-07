@@ -48,7 +48,7 @@ rule download_protein_data:
         && wget {params.http_path}_protein.faa.gz \
         && gunzip *.gz \
         && ln -s *.faa protein.faa\
-        && makeblastdb -in protein.faa -title protdb -out protdb -dbtype prot -parse_seqids\
+        && formatdb -i protein.faa -t protdb -n protdb -p T -o T\
         && cd ../../../
         """
         # the blast database is created here to be used during the 4th step 
