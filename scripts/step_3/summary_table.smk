@@ -7,6 +7,9 @@ rule all:
     input: expand("results/{accession}/summary_table_{accession}.csv", accession=ACCESSNB)
 
 rule hmm_build:
+    """
+    HMM creation.
+    """
     input:
         "data/ref_align/Prdm9_Metazoa_Reference_alignment/Domain_{domain}_ReferenceAlignment.fa"
     output:
@@ -15,6 +18,9 @@ rule hmm_build:
         "hmmbuild {output} {input}"
 
 rule hmm_search:
+    """
+    Proteome search using the HMMs.
+    """
     input:
         model="results/hmm_build/{domain}.hmm",
         protein="data/ncbi/{accession}/protein.faa"
@@ -26,7 +32,7 @@ rule hmm_search:
 
 rule tbl_processing:
     """
-    Result file processing for a later use
+    Result file processing for a later use.
     """
     input:
         "results/{accession}/hmm_search/tbl/{domain}"
@@ -37,7 +43,7 @@ rule tbl_processing:
 
 rule domain_processing:
     """
-    Result file processing for a later use
+    Result file processing for a later use.
     """
     input:
         "results/{accession}/hmm_search/tbl/{domain}_processed",
@@ -53,6 +59,9 @@ def domain_done(wildcards):
     return expand("results/" + wildcards.accession + "/hmm_search/domtbl/{domain}_domains_summary" , domain=DOMAIN)
 
 rule table_editing:
+    """
+    Creation of a summary table of hmm_search results.
+    """
     input:
         domain_done
     output:

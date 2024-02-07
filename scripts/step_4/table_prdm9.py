@@ -1,7 +1,7 @@
 import pandas as pd
 
 """
-This script creates a summary table of domain presence absence in genes that are identified as PRDM9 for every organism
+This script creates a summary table of domain presence absence in candidate genes for every organism
 """
 
 taxonomy = pd.read_csv('data/resources/sorted_taxonomy.csv', sep= ';')
@@ -15,21 +15,21 @@ donnees['SET+KRAB+ZF'] = ((donnees['Complete_PRDM9'] == 0) & (donnees['KRAB'] + 
 donnees['SET+KRAB'] = ((donnees['Complete_PRDM9'] == 0) & (donnees['SET+KRAB+ZF'] == 0) & (donnees['SET+KRAB+SSXRD'] == 0) & (donnees['KRAB'] == 1)).astype(int)
 donnees['KRAB+ZF'] = ((donnees['Complete_PRDM9'] == 0) & (donnees['SET+KRAB+ZF'] == 0) & (donnees['SET+KRAB+SSXRD'] == 0) & (donnees['KRAB'] == 1) & (donnees['boolZF'] == 1)).astype(int)
 
-donnees['PRDM9'] = False
-for index, row in donnees.iterrows():
-    if row['Best_Match'] == 'PRDM9':
-        donnees.at[index, 'PRDM9'] = True 
-    else:
-        donnees.at[index, 'PRDM9'] = False 
+# donnees['PRDM9'] = False
+# for index, row in donnees.iterrows():
+#     if row['Best_Match'] == 'PRDM9':
+#         donnees.at[index, 'PRDM9'] = True 
+#     else:
+#         donnees.at[index, 'PRDM9'] = False 
 
-prdm9 = donnees[donnees['PRDM9'] == True]
+# prdm9 = donnees[donnees['PRDM9'] == True]
 
-synth = prdm9.groupby(['Taxid', 'Species_name']).agg({
-    'Complete_PRDM9': lambda x: list(prdm9.loc[x.index, 'Protein ID'][prdm9['Complete_PRDM9'] == 1]),
-    'SET+KRAB+SSXRD': lambda x: list(prdm9.loc[x.index, 'Protein ID'][prdm9['SET+KRAB+SSXRD'] == 1]),
-    'SET+KRAB+ZF': lambda x: list(prdm9.loc[x.index, 'Protein ID'][prdm9['SET+KRAB+ZF'] == 1]),
-    'SET+KRAB': lambda x: list(prdm9.loc[x.index, 'Protein ID'][prdm9['SET+KRAB'] == 1]),
-    'KRAB+ZF': lambda x: list(prdm9.loc[x.index, 'Protein ID'][prdm9['KRAB+ZF'] == 1])
+synth = donnees.groupby(['Taxid', 'Species_name']).agg({
+    'Complete_PRDM9': lambda x: list(donnees.loc[x.index, 'Protein ID'][donnees['Complete_PRDM9'] == 1]),
+    'SET+KRAB+SSXRD': lambda x: list(donnees.loc[x.index, 'Protein ID'][donnees['SET+KRAB+SSXRD'] == 1]),
+    'SET+KRAB+ZF': lambda x: list(donnees.loc[x.index, 'Protein ID'][donnees['SET+KRAB+ZF'] == 1]),
+    'SET+KRAB': lambda x: list(donnees.loc[x.index, 'Protein ID'][donnees['SET+KRAB'] == 1]),
+    'KRAB+ZF': lambda x: list(donnees.loc[x.index, 'Protein ID'][donnees['KRAB+ZF'] == 1])
 }).reset_index()
 
 synth['Complete_PRDM9 nb'] = synth['Complete_PRDM9'].apply(len)

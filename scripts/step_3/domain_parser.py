@@ -5,7 +5,7 @@ parser = argparse.ArgumentParser(description='Reads hmm_search per domain output
 parser.add_argument('-i', '--input', type=str, required=True, help='HMM_search -domtblout file path')
 parser.add_argument('-o', '--output', type=str, required=True, help='Processed file path')
 parser.add_argument('-s', '--synthesis', type=str, required=True, help='1 line only for each query (best match and whole domain alignment coordinates)\
-                                                                        synthetic file path')
+                                                                        file path')
 args = parser.parse_args()
 
 with open(args.input) as reader, open(args.output, 'w') as writer:
@@ -29,6 +29,7 @@ with open(args.output) as reader, open(args.synthesis, 'w') as writer:
             for elt in line.split(maxsplit=23):
                 newline += f"{elt.strip()}\t"
         else:
+            # overlapping zinc finger domains are merged to create one big domain with multiple repetitions.
             if args.output == 'ZF_domains_processed':
                 line_data = line.split(maxsplit=23)
                 newline_data = newline.split('\t')

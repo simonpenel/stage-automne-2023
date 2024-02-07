@@ -20,7 +20,7 @@ with open("data/resources/organisms_data") as reader:
 
 if config["curated_only"] == 1:
     FINAL = CURATED # Accession number list
-    PATHLIST = dict(zip(FINAL, CUR_LIST)) # Dictionary with accession number as keysand URLs as values
+    PATHLIST = dict(zip(FINAL, CUR_LIST)) # Dictionary with accession number as keys and URLs as values
 else:
     FINAL = ACCESSNB
     PATHLIST = dict(zip(FINAL, PATHLIST))

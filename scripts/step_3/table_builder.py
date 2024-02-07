@@ -17,6 +17,7 @@ noms_colonnes = ['SeqID', 'SET Query', 'SET E-value', 'SET Score', 'Nb SET domai
 
 data_list = []
 
+# All candidates must have a SET domain
 with open(f"results/{accession_number}/hmm_search/tbl/SET_processed") as reader:
     for line in reader:
         line_data = line.strip().split('\t')

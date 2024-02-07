@@ -33,6 +33,7 @@ with open(f"results/{accession}/blastp.txt", 'w') as writer:
         prot = f"<\t{set}\t{krab}\t{ssxrd}\t{zf}\n"
         os.system(f"blastdbcmd -db data/ncbi/{accession}/protdb -entry {row['SeqID']} -range {int(row['SET domain start'])}-{int(row['SET domain end'])} -out data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa")
         os.system(f"blastp -db data/PRDM_family_HUMAN/prdm_family -outfmt 7 -query data/ncbi/{accession}/SET_sequences/{row['SeqID']}.fa -out data/ncbi/{accession}/SET_blastp/{row['SeqID']}")
+        # Open the blastp file associated to the protein row['SeqID'] (one for every candidate protein for every organism)
         with open(f"data/ncbi/{accession}/SET_blastp/{row['SeqID']}") as reader:
             prot_id = row['SeqID']
             lines = reader.readlines()
