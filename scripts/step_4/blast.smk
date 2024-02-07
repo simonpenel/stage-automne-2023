@@ -19,7 +19,7 @@ rule read_table:
         "results/{accession}/blastp.txt",
     shell:
         """
-        python scripts/step_4/blastp_analysis.py results/{wildcards.accession}/summary_table_{wildcards.accession}.csv {wildcards.accession}\
+        python3 scripts/step_4/blastp_analysis.py results/{wildcards.accession}/summary_table_{wildcards.accession}.csv {wildcards.accession}\
         """
 
 rule summary:
@@ -45,7 +45,7 @@ rule blastp_results:
         "results/BLASTP_results/blastp_results.csv",
     shell:
         """
-        python scripts/step_4/blastp_table.py\
+        python3 scripts/step_4/blastp_table.py\
         """
 
 rule taxonomy:
@@ -57,7 +57,7 @@ rule taxonomy:
     output:
         "data/resources/sorted_taxonomy.csv"
     shell:
-        "python scripts/step_4/taxonomy.py"
+        "python3 scripts/step_4/taxonomy.py"
 
 rule create_table:
     """
@@ -73,8 +73,8 @@ rule create_table:
         "table_results/table_prdm9.csv"
     shell:
         """
-        python scripts/step_4/krab.py\
-        && python scripts/step_4/krabzf.py\
-        && python scripts/step_4/zf_analysis.py\
-        && python scripts/step_4/table_prdm9.py
+        python3 scripts/step_4/krab.py\
+        && python3 scripts/step_4/krabzf.py\
+        && python3 scripts/step_4/zf_analysis.py\
+        && python3 scripts/step_4/table_prdm9.py
         """
