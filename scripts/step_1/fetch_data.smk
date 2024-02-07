@@ -9,7 +9,7 @@ rule ncbi_query:
     params:
         query = config['query']
     shell:
-        "esearch -db assembly -query {params.query} | efetch -format docsum  > {output}"
+        "esearch -db assembly -query {params.query} | efetch -format docsum  |grep -v xml > {output}"
 
 rule frauder_le_xml:
     """
@@ -34,7 +34,7 @@ rule frauder_le_xml:
         "data/resources/rooted_extraction"
     shell:
         """
-        python scripts/step_1/xml_rewrite.py {input} {output}\
+        python3 scripts/step_1/xml_rewrite.py {input} {output}\
         && rm {input}
         """
 
@@ -47,4 +47,4 @@ rule data_analysis:
     output:
         "data/resources/organisms_data"
     shell:
-        "python scripts/step_1/xml_reader.py {input} {output}"
+        "python3 scripts/step_1/xml_reader.py {input} {output}"
