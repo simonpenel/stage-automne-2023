@@ -39,7 +39,7 @@ rule tbl_processing:
     output:
         "results/{accession}/hmm_search/tbl/{domain}_processed"
     shell:
-        "python scripts/step_3/hmmsearch_parser.py -i {input} -o {output}"
+        "python3 scripts/step_3/hmmsearch_parser.py -i {input} -o {output}"
 
 rule domain_processing:
     """
@@ -52,7 +52,7 @@ rule domain_processing:
         processed="results/{accession}/hmm_search/domtbl/{domain}_domains_processed",
         summary="results/{accession}/hmm_search/domtbl/{domain}_domains_summary"
     shell:
-       "python scripts/step_3/domain_parser.py -i {input.domain_data} -o {output.processed} -s {output.summary}"
+       "python3 scripts/step_3/domain_parser.py -i {input.domain_data} -o {output.processed} -s {output.summary}"
 
 
 def domain_done(wildcards):
@@ -67,4 +67,4 @@ rule table_editing:
     output:
         "results/{accession}/summary_table_{accession}.csv"
     shell:
-        "python scripts/step_3/table_builder.py -a {wildcards.accession} -o {output}"
+        "python3 scripts/step_3/table_builder.py -a {wildcards.accession} -o {output}"
