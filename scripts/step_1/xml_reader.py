@@ -32,7 +32,7 @@ with open(sys.argv[2], 'w') as writer:
                 url = None
             else:
                 url = "https:" + ftp.strip().split(":")[1] + "/" + ftp.strip().split("/")[-1]
-        status = document_summary.find('RefSeq_category').text
-        if status == 'representative genome':
+        status = document_summary.find('RefSeq_category').text 
+        if status == 'representative genome' or  status == 'reference genome':
             line = f"{species_name}\t{taxid}\t{accession}\t{annotation}\t{protein}\t{url}\n"
             writer.write(line)
