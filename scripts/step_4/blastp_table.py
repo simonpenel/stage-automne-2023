@@ -17,9 +17,15 @@ with open('results/BLASTP_results/blastp_summary.txt', 'r+') as reader:
         # Get taxid and taxonomy data
         if line.startswith('>') == True:
             taxid = line.lstrip('>')
-            lineage = ncbi.get_lineage(taxid)
-            taxonomy = ncbi.get_taxid_translator(lineage)
-            species = ncbi.get_taxid_translator([taxid])[int(taxid)]
+            try:
+                lineage = ncbi.get_lineage(taxid)
+                taxonomy = ncbi.get_taxid_translator(lineage)
+                species = ncbi.get_taxid_translator([taxid])[int(taxid)]
+            except ValueError as err:
+                print("Error : ",format(err))
+                lineage = []
+                taxonomy = {}
+                species = ""
             # superorder = taxonomy[lineage[18]] # this line was used when working on insects. It can be modified to keep the chosen tanonomy level (change lineage index) or simply ignored.
         # get proteic domains data
         elif line.startswith('<') == True:

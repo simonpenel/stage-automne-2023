@@ -22,7 +22,11 @@ with open('data/resources/taxid.txt') as reader:
 
 tax_data = []
 for elt in data_list:
-    lineage = ncbi.get_lineage(elt)
+    try:
+        lineage = ncbi.get_lineage(elt)
+    except ValueError as err:
+        print("Error : ",format(err))
+        lineage = []
     names = ncbi.get_taxid_translator(lineage)
     organism_data = [int(elt.strip())] + [names[taxid] for taxid in lineage]
     tax_data.append(organism_data)
