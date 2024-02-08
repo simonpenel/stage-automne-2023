@@ -1,3 +1,3 @@
 {
-    "query": "Hominidae"
+    "query": '"\"Primates\"[Organism] AND \"latest refseq\"[filter]"'
 }
