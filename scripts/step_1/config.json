@@ -1,3 +1,3 @@
 {
-    "query": '"\"Primates\"[Organism] AND \"latest refseq\"[filter]"'
+    "query": '"\"Primates\"[Organism]"'
 }
